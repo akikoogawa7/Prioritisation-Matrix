@@ -1,9 +1,17 @@
-
 import json
 
-def compute_user_inputs_dataset(inputs_dataset, agent_group_size):
-    if json.loads(inputs_dataset):
-        return 'true'
+def compute_inputs_json(inputs_dataset):
+    try:
+        with open(inputs_dataset, 'r') as fp:
+            inputs_dataset = json.load(fp)
+            print(inputs_dataset)
+            print('Data loaded')
+    except IOError:
+        print('File not found, will create a new one.')
+        inputs_dataset = {}
 
-if __name__ == '__main__':
-    compute_user_inputs_dataset(test.json)
+def calculate_threshold_against_groups_size(agents_group_size, threshold):
+    if threshold > 100:
+        print('Error! Threshold must be less than and up to 100')
+    elif threshold < 50:
+        print('Error! Thresholds lower than 50 will make tasks less urgent and important')
