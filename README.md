@@ -4,3 +4,5 @@ The priority matrix is an attempt to classify group tasks based on the Eisenhowe
 ```
 CLASSES: [x: ('Urgent', 'Less Urgent'), y: ('Important', 'Less Important')]
 ```
+
+![matrix](Eisenhower-Matrix.jpeg)
