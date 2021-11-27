@@ -3,7 +3,7 @@ import time
 from utils import compute_inputs_json
 
 class MatrixInputs():
-    def __init__(self, inputs_dataset, agents_group_size=1, threshold=80, matrix=True):
+    def __init__(self, inputs_dataset, agents_group_size=1, threshold=50, matrix=True):
         #TODO: Insert categories
         x = ('Urgent', 'Less Urgent')
         y = ('Important', 'Less Important')
@@ -18,6 +18,6 @@ class MatrixInputs():
 
     def _calculate_threshold_against_groups_size(self, agent_groups_size, threshold):
         #TODO: Calculate the defining factor for classifying tasks into our 4 categories
-        
+
 
     #TODO: Insert graphic and ML to classify tasks based on the amount of people who rate a task with weight
