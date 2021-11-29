@@ -5,19 +5,25 @@ user_inputs = {
         'user_id': 'DE1',
         'name': 'Akiko Ogawa',
         'role': 'Data Engineer',
-        'Work on A': (8, 7),
+        'tasks': {
+            'work on A': (9, 2)
+        }
     },
     'MO1': {
         'user_id': 'MO1',
         'name': 'James Fox',
         'role': 'Management Operator',
-        'Work on A': (9, 2),
+        'tasks': {
+            'work on A': (8, 7)
+        }
     },
     'PD1': {
         'user_id': 'PD1',
         'name': 'Joe Chan',
         'role': 'Product Design',
-        'Work on A': (2, 9),
+        'tasks': {
+            'work on A': (2, 9)
+        }
     }
 }
 
