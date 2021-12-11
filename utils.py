@@ -38,5 +38,18 @@ def calculate_threshold_against_groups_size(agents_group_size, threshold):
     # This means that if 4/10 people vote urgent and 6/10 vote not urgent then it will be classed as a not urgent task
     # If it was 80 percent then if 3/10 people vote for an urgent task, 7/10 people vote as unurgent, it will still be classed as urgent?
 
-    # Those remaining in urgent and less important, is there a way to delegate or automate that to other groups?
+    # Those remaining in important and less urgent, is there a way to delegate or automate that to other groups?
         
+    # Default quadrants to be 50/50, could be flexible for other decision boundaries
+    # Tasks could be ranked in terms of 'relative urgency'
+    # Could each task be a feature that could be classed in the 4 quadrants?
+    # Output is urgency? y-axis is importance/impact and x-axis is time and effort required
+    # Proximity (how soon it should happen? not very soon 1-3 very soon), Impact, Difficulty
+    # Look into MUST(what it must do) SHOULD (what it should do) COULD HAVE (what is nice to have) WONT (what is not possible, understanding of scope)
+
+    # Task prioritisation planning could trigger a kanban board
+
+    # Make it generalisable
+    # Matrix is a visual aid that prompts for decision-making
+    # Indicator of alignment - nearest dots, clustering algorithm.
+
