@@ -1,8 +1,7 @@
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, ValidationError, validator, validate_arguments, constr
-from typing import Optional, NamedTuple, List, Dict, Tuple
+from pydantic import BaseModel, Field, validator 
+from typing import Optional, NamedTuple, List
 from datetime import datetime
-# from utils import compute_inputs_json, check_threshold_against_groups_size
 from errors import XYValueError
 import pprint
 from utils import quadrant_classifier_label, quadrant_classifier_for_values
@@ -137,6 +136,6 @@ matrix = MatrixOutputMetadata(
     quadrant_class=quadrant_class
     )
 
-print(f'\nLABELS: {matrix.labels}\n\nMETADATA: {matrix.element_inputs}\nVALUES: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\nPREFERRED CLASS: {matrix.quadrant_class}')
+print(f'\nLABELS: {matrix.labels}\n\nELEMENT INPUT: {matrix.element_inputs}\n\nELEMENT VALUE: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\nPREFERRED CLASS: {matrix.quadrant_class}')
 
 print(f'x: {x}\t y: {y}\nOUTPUT CLASS: {output_class}')
