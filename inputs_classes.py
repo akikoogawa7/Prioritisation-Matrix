@@ -1,11 +1,13 @@
 from uuid import UUID, uuid4
 from pydantic import BaseModel, Field, ValidationError, validator, validate_arguments, constr
-from typing import Optional, NamedTuple, List, Dict
+from typing import Optional, NamedTuple, List, Dict, Tuple
 from datetime import datetime
 # from utils import compute_inputs_json, check_threshold_against_groups_size
 from errors import XYValueError
 import pprint
 from utils import quadrant_classifier_label, quadrant_classifier_for_values
+
+pp = pprint.PrettyPrinter(indent=4)
 
 class UserData(BaseModel):
     id: UUID = Field(default_factory=uuid4)
@@ -28,6 +30,9 @@ class UserData(BaseModel):
         assert v.isalnum(), 'must be alphanumeric'
         return v
 
+    class Config:
+        allow_mutation = False
+
 # Question and Problem element (created by Admin)
 class UserElementName(BaseModel):
     user_element_name: str
@@ -46,36 +51,10 @@ class XYInputLabel(NamedTuple):
     x_label: str
     y_label: str
 
+# Polarities for preference
 class XYInputPolarity(BaseModel):
     x_polarity: bool
     y_polarity: bool
-
-# Polarities for preference
-@validate_arguments
-def quadrant_classifier_label(x_polarity, y_polarity):
-
-    """4 quadrants of preferrability classification defined based on X and Y polarity"""
-
-    # A - Negative X Positive Y
-    # B - Positive X Positive y
-    # C - Negative X Negative Y
-    # D - Positive X Negative Y 
-
-    # If True, x is positive, if False, x is negative
-    # If True, y is positive, if False, y is negative
-
-    if x_polarity == False and y_polarity == True:
-        A = 'A'
-        return A
-    elif x_polarity == True and y_polarity == True:
-        B = 'B'
-        return B
-    elif x_polarity == False and y_polarity == False:
-        C = 'C'
-        return C
-    else:
-        D = 'D'
-        return D
     
 class UserElementInputs(BaseModel):
     id: UUID = Field(default_factory=uuid4)
@@ -97,21 +76,22 @@ class UserElementValues(BaseModel):
         return value
     
 class UserElementList(BaseModel):
-    __root__: List[UserElementInputs] # change to Element list
+    __root__: List[UserElementInputs]
 
 class MatrixOutputMetadata(BaseModel):
     user: UserData
     labels: XYInputLabel
     polarity: XYInputPolarity
-    # preferrable_class: str = quadrant_classifier_label(XYInputPolarity)
     element_inputs: UserElementInputs
     element_values: UserElementValues
     element_list: UserElementList
-    # output: UserElementValues.output
+    quadrant_class: str
 
+    class Config:
+        allow_mutation = False
 
 # Test data
-pp = pprint.PrettyPrinter(indent=4)
+# User data
 
 user = UserData(
     first_name='A',
@@ -121,28 +101,42 @@ user = UserData(
     confirm_password='password'
 )
 
+# XY Labels 
 labels = XYInputLabel(x_label='Importance', y_label='Effort')
 
-t1 = UserElementInputs(user_element_name='Do A')
-t2 = UserElementInputs(user_element_name='Do B')
+# Elements created
 
-question_element_name = UserElementInputs(user_element_name='Do x')
+e1 = UserElementInputs(user_element_name='Do A')
+e2 = UserElementInputs(user_element_name='Do B')
 
-polarity = XYInputPolarity(x_polarity=True, y_polarity=False)
+list_of_tasks = [e1, e2]
 
-list_of_tasks = [t1, t2]
+x_polarity = True
+y_polarity = False
 
-pp.pprint(f'Task 1: {t1.user_element_name}  Task 2: {t2.user_element_name}')
+x_value = 50.0
+y_value = 40.0
+
+element_values = UserElementValues(element=e1, x_value=x_value, y_value=y_value)
+
+polarity = XYInputPolarity(x_polarity=x_polarity, y_polarity=y_polarity)
+
+quadrant_class = quadrant_classifier_label(x_polarity=x_polarity, y_polarity=y_polarity)
+x, y, output_class = quadrant_classifier_for_values(x_value, y_value)
+
+pp.pprint(f'Element 1: {e1.user_element_name}  Element 2: {e2.user_element_name}')
 
 
 matrix = MatrixOutputMetadata(
     user=user,
     labels=labels, 
     polarity=polarity,
-    # preferrable_class=polarity,
-    element_inputs=question_element_name,
-    element_values=UserElementValues(element=question_element_name, x_value=50.0, y_value=40.0),
-    element_list=list_of_tasks)
+    element_inputs=e1,
+    element_list=list_of_tasks,
+    element_values=element_values,
+    quadrant_class=quadrant_class
+    )
 
+print(f'\nLABELS: {matrix.labels}\n\nMETADATA: {matrix.element_inputs}\nVALUES: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\nPREFERRED CLASS: {matrix.quadrant_class}')
 
-print(f'\nLABELS: {matrix.labels}\n\nMETADATA: {matrix.element_inputs}\nVALUES: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\n')
+print(f'x: {x}\t y: {y}\nOUTPUT CLASS: {output_class}')

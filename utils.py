@@ -18,7 +18,7 @@ def quadrant_classifier_for_values(x, y, threshold=50):
     else:
         return x, y, 'D'
 
-def quadrant_classifier_label(x, y):
+def quadrant_classifier_label(x_polarity:bool, y_polarity:bool):
 
     """4 quadrants of preferrability classification defined based on X and Y polarity"""
 
@@ -26,14 +26,17 @@ def quadrant_classifier_label(x, y):
     # B - Positive X Positive y
     # C - Negative X Negative Y
     # D - Positive X Negative Y 
-    
-    if x == False and y == True:
+
+    # If True, x is positive, if False, x is negative
+    # If True, y is positive, if False, y is negative
+
+    if x_polarity == False and y_polarity == True:
         A = 'A'
         return A
-    elif x == True and y == True:
+    elif x_polarity == True and y_polarity == True:
         B = 'B'
         return B
-    elif x == False and y == False:
+    elif x_polarity == False and y_polarity == False:
         C = 'C'
         return C
     else:
