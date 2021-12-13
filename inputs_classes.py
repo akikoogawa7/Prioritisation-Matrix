@@ -27,21 +27,21 @@ class UserData(BaseModel):
 class MatrixInputs(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     time_created: datetime = Field(default_factory=datetime.utcnow)
-    # author: UserData
-    project_name: str
-    project_description: Optional[str] = None
+    author: UserData
+    problem_name: str 
+    problem_description: Optional[str] = None
 
 class XYInputs(NamedTuple):
     x_label: str
     y_label: str
 
-class TasksInputs(BaseModel):
+class UserElementInputs(BaseModel):
     id: UUID = Field(default_factory=uuid4)
-    task_name: str
+    user_element_name: str 
     time_created: datetime = Field(default_factory=datetime.utcnow)
 
-class TaskValues(BaseModel):
-    task: TasksInputs
+class UserElementValues(BaseModel):
+    element: UserElementInputs
     x_value: float
     y_value: float
 
@@ -53,25 +53,33 @@ class TaskValues(BaseModel):
             raise XYValueError(value=value, message='Value should not be more than 100.0')
         return value
     
-class TasksList(BaseModel):
-    __root__: List[TasksInputs]
+class UserElementList(BaseModel):
+    __root__: List[UserElementInputs] # change to Element list
 
-class UserItemInputs(BaseModel):
-    # list_of_tasks: List[TasksInputs] = None
+class UserMetadata(BaseModel):
+    user: UserData
+    # matrix: MatrixInputs depends on whether user is creating matrix or only voting
     labels: XYInputs
-    metadata: TasksInputs
-    tasks_list: TasksList
+    element_inputs: UserElementInputs
+    element_values: UserElementValues
+    tasks_list: UserElementList
 
-t1 = TasksInputs(task_name='Do A')
-t2 = TasksInputs(task_name='Do B')
+
+
+user = UserData() # include user data
+
+t1 = UserElementInputs(user_element_name='Do A')
+t2 = UserElementInputs(user_element_name='Do B')
 
 list_of_tasks = [t1, t2]
 
 print(f'Task 1: {t1.task_name}\nTask 2: {t2.task_name}')
 
-user_1 = UserItemInputs(
+user_1 = UserMetadata(
+    user=user,
     labels=XYInputs('Importance', 'Effort'), 
-    metadata=TasksInputs(task_name='Do x', x_value=80.0, y_value=12.0),
+    element_inputs=UserElementInputs(user_element_name='Do x'),
+    element_values=UserElementValues(x_value=50.0, y_value=40.0),
     tasks_list=list_of_tasks)
 
 print(f'\nLABELS: {user_1.labels}\n\nMETADATA: {user_1.metadata}\n\nTASKS: {user_1.tasks_list}\n\n')
