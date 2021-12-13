@@ -43,21 +43,6 @@ def quadrant_classifier_label(x_polarity:bool, y_polarity:bool):
         D = 'D'
         return D
 
-# Polarity
-x_label = True
-y_label = False
-
-quadrant_class = quadrant_classifier_label(x_label, y_label)
-print(quadrant_class)
-
-# Classify values
-x = 80
-y = 90
-
-x, y, quadrant = quadrant_classifier_for_values(x, y)
-print(x, y, quadrant)
-
-
 def compute_inputs_json(inputs_dataset):
     try:
         with open(inputs_dataset, 'r') as fp:
