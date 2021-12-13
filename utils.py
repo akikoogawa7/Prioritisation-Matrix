@@ -1,6 +1,24 @@
 import json
 
-def quadrant_classifier(x, y):
+def quadrant_classifier_for_values(x, y, threshold=50):
+
+    """4 quadrants of preferrability classification defined based on X and Y threshold"""
+
+    # A - Negative X Positive Y  - x less than 50, y more than 50
+    # B - Positive X Positive y  - x more than 50, y more than 50
+    # C - Negative X Negative Y  - x less than 50, y less than 50
+    # D - Positive X Negative Y  - x more than 50, y less than 50
+
+    if x < threshold and y > threshold:
+        return x, y, 'A'
+    elif x > threshold and y > threshold:
+        return x, y, 'B'
+    elif x < threshold and y < threshold:
+        return x, y, 'C'
+    else:
+        return x, y, 'D'
+
+def quadrant_classifier_label(x, y):
 
     """4 quadrants of preferrability classification defined based on X and Y polarity"""
 
@@ -10,17 +28,32 @@ def quadrant_classifier(x, y):
     # D - Positive X Negative Y 
     
     if x == False and y == True:
-        A = 'Preferrable quadrant'
+        A = 'A'
         return A
     elif x == True and y == True:
-        B = 'Preferrable quadrant'
+        B = 'B'
         return B
     elif x == False and y == False:
-        C = 'Preferrable quadrant'
+        C = 'C'
         return C
     else:
-        D = 'Preferrable quadrant'
+        D = 'D'
         return D
+
+# Polarity
+x_label = True
+y_label = False
+
+quadrant_class = quadrant_classifier_label(x_label, y_label)
+print(quadrant_class)
+
+# Classify values
+x = 80
+y = 90
+
+x, y, quadrant = quadrant_classifier_for_values(x, y)
+print(x, y, quadrant)
+
 
 def compute_inputs_json(inputs_dataset):
     try:
