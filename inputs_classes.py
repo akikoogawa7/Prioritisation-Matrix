@@ -123,7 +123,6 @@ if __name__ == '__main__':
 
     pp.pprint(f'Element 1: {e1.user_element_name}  Element 2: {e2.user_element_name}')
 
-
     matrix = MatrixOutputMetadata(
         user=user,
         labels=labels, 
