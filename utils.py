@@ -1,5 +1,27 @@
 import json
 
+def quadrant_classifier(x, y):
+
+    """4 quadrants of preferrability classification defined based on X and Y polarity"""
+
+    # A - Negative X Positive Y
+    # B - Positive X Positive y
+    # C - Negative X Negative Y
+    # D - Positive X Negative Y 
+    
+    if x == False and y == True:
+        A = 'Preferrable quadrant'
+        return A
+    elif x == True and y == True:
+        B = 'Preferrable quadrant'
+        return B
+    elif x == False and y == False:
+        C = 'Preferrable quadrant'
+        return C
+    else:
+        D = 'Preferrable quadrant'
+        return D
+
 def compute_inputs_json(inputs_dataset):
     try:
         with open(inputs_dataset, 'r') as fp:

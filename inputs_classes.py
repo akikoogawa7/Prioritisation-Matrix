@@ -5,6 +5,7 @@ from datetime import datetime
 # from utils import compute_inputs_json, check_threshold_against_groups_size
 from errors import XYValueError
 import pprint
+from utils import quadrant_classifier
 
 class UserData(BaseModel):
     id: UUID = Field(default_factory=uuid4)
@@ -45,30 +46,8 @@ class XYInputs(NamedTuple):
     x_polarity: bool # If True, x is positive, if False, x is negative
     y_label: str
     y_polarity: bool # If True, y is positive, if False, y is negative
-
-    # XY 4 quadrants of preferrability classification
-    # A - Negative X Positive Y
-    # B - Positive X Positive y
-    # C - Negative X Negative Y
-    # D - Positive X Negative Y 
+    quadrant: quadrant_classifier(x_polarity, y_polarity) # Calculates which quadrant is preferrable
     
-    @validator('x_polarity', 'y_polarity')
-    @classmethod
-    def negative_x_positive_y(cls, x, y):
-        if x == False and y == True:
-            A = 'Preferrable quadrant'
-            return A
-        elif x == True and y == True:
-            B = 'Preferrable quadrant'
-            return B
-        elif x == False and y == False:
-            C = 'Preferrable quadrant'
-            return C
-        else:
-            D = 'Preferrable quadrant'
-            return D
-
-
 class UserElementInputs(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     user_element_name: str 
