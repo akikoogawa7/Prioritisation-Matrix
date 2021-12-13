@@ -46,7 +46,6 @@ class MatrixInputs(BaseModel):
 
 # XY Variables and Polarity (created by Admin)
 class XYInputLabel(NamedTuple):
-    # Label
     x_label: str
     y_label: str
 
@@ -89,53 +88,52 @@ class MatrixOutputMetadata(BaseModel):
     class Config:
         allow_mutation = False
 
-# Test data
-# User data
+if __name__ == '__main__':
 
-user = UserData(
-    first_name='A',
-    last_name='O',
-    username='AO97',
-    password='password',
-    confirm_password='password'
-)
-
-# XY Labels 
-labels = XYInputLabel(x_label='Importance', y_label='Effort')
-
-# Elements created
-
-e1 = UserElementInputs(user_element_name='Do A')
-e2 = UserElementInputs(user_element_name='Do B')
-
-list_of_tasks = [e1, e2]
-
-x_polarity = True
-y_polarity = False
-
-x_value = 50.0
-y_value = 40.0
-
-element_values = UserElementValues(element=e1, x_value=x_value, y_value=y_value)
-
-polarity = XYInputPolarity(x_polarity=x_polarity, y_polarity=y_polarity)
-
-quadrant_class = quadrant_classifier_label(x_polarity=x_polarity, y_polarity=y_polarity)
-x, y, output_class = quadrant_classifier_for_values(x_value, y_value)
-
-pp.pprint(f'Element 1: {e1.user_element_name}  Element 2: {e2.user_element_name}')
-
-
-matrix = MatrixOutputMetadata(
-    user=user,
-    labels=labels, 
-    polarity=polarity,
-    element_inputs=e1,
-    element_list=list_of_tasks,
-    element_values=element_values,
-    quadrant_class=quadrant_class
+    user = UserData(
+        first_name='A',
+        last_name='O',
+        username='AO97',
+        password='password',
+        confirm_password='password'
     )
 
-print(f'\nLABELS: {matrix.labels}\n\nELEMENT INPUT: {matrix.element_inputs}\n\nELEMENT VALUE: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\nPREFERRED CLASS: {matrix.quadrant_class}')
+    # XY Labels 
+    labels = XYInputLabel(x_label='Importance', y_label='Effort')
 
-print(f'x: {x}\t y: {y}\nOUTPUT CLASS: {output_class}')
+    # Elements created
+
+    e1 = UserElementInputs(user_element_name='Do A')
+    e2 = UserElementInputs(user_element_name='Do B')
+
+    list_of_tasks = [e1, e2]
+
+    x_polarity = True
+    y_polarity = False
+
+    x_value = 50.0
+    y_value = 40.0
+
+    element_values = UserElementValues(element=e1, x_value=x_value, y_value=y_value)
+
+    polarity = XYInputPolarity(x_polarity=x_polarity, y_polarity=y_polarity)
+
+    quadrant_class = quadrant_classifier_label(x_polarity=x_polarity, y_polarity=y_polarity)
+    x, y, output_class = quadrant_classifier_for_values(x_value, y_value)
+
+    pp.pprint(f'Element 1: {e1.user_element_name}  Element 2: {e2.user_element_name}')
+
+
+    matrix = MatrixOutputMetadata(
+        user=user,
+        labels=labels, 
+        polarity=polarity,
+        element_inputs=e1,
+        element_list=list_of_tasks,
+        element_values=element_values,
+        quadrant_class=quadrant_class
+        )
+
+    print(f'\nLABELS: {matrix.labels}\n\nELEMENT INPUT: {matrix.element_inputs}\n\nELEMENT VALUE: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\nPREFERRED CLASS: {matrix.quadrant_class}')
+
+    print(f'x: {x}\t y: {y}\nOUTPUT CLASS: {output_class}')
