@@ -1,5 +1,6 @@
 from uuid import UUID, uuid4
 from fastapi import FastAPI, Path
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from .inputs_classes import UserData, MatrixInputs, UserElementInputs, UserDataOut
 import socket
@@ -7,6 +8,13 @@ import sys
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 matrices = {
     'matrix_body': {
