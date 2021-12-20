@@ -3,16 +3,16 @@ from pydantic import BaseModel, Field, validator, EmailStr, validate_email
 from typing import Optional, NamedTuple, List
 from datetime import datetime
 from pydantic.networks import EmailStr
-from .errors import XYValueError
+from errors import XYValueError
 import pprint
-from .utils import quadrant_classifier_label, quadrant_classifier_for_values
+from utils import quadrant_classifier_label, quadrant_classifier_for_values
 
 pp = pprint.PrettyPrinter(indent=4)
 
 class UserData(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     fullname: Optional[str] = None
-    email: str
+    # email: str
     username: str
     password: str
     confirm_password: str
@@ -132,6 +132,6 @@ if __name__ == '__main__':
         quadrant_class=quadrant_class
         )
 
-    print(f'\nLABELS: {matrix.labels}\n\nELEMENT INPUT: {matrix.element_inputs}\n\nELEMENT VALUE: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\nPREFERRED CLASS: {matrix.quadrant_class}')
+    # print(f'\nLABELS: {matrix.labels}\n\nELEMENT INPUT: {matrix.element_inputs}\n\nELEMENT VALUE: {matrix.element_values}\n\nELEMENTS: {matrix.element_list}\n\nPREFERRED CLASS: {matrix.quadrant_class}')
 
-    print(f'x: {x}\t y: {y}\nOUTPUT CLASS: {output_class}')
+    # print(f'x: {x}\t y: {y}\nOUTPUT CLASS: {output_class}')
