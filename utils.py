@@ -1,4 +1,6 @@
 import json
+from os import times_result
+import numpy as np
 
 def quadrant_classifier_for_values(x, y, threshold=50):
 
@@ -53,6 +55,60 @@ def compute_inputs_json(inputs_dataset):
         print('File not found, will create a new one.')
         inputs_dataset = {}
 
+def avg_of_x_y(x_list, y_list):
+    if len(x_list) == len(y_list):
+        average_x = round(sum(x_list) / len(x_list), 2)
+        average_y = round(sum(y_list) / len(y_list), 2)
+    return average_x, average_y
+
+# def multiply_x_positive_y_postive(x, y):
+#     if x and y > 0:
+#         z = x * y
+#     return z
+    
+# def multiply_x_positive_y_negative(x, y):
+#     if x > 0 and y < 0:
+#         z = x * (100-y)
+#     return z
+
+# def multiply_x_negative_y_positive(x, y):
+#     if x < 0 and y > 0:
+#         z = (100-x) * y
+#     return z
+
+# def multiply_x_negative_y_negative(x, y):
+#     if x < 0 and y < 0:
+#         z = (100-x) * (100-y)
+#     return z
+
+def compute_z(avg_x, avg_y):
+    if avg_x and avg_y > 0:
+        z = avg_x * avg_y
+    elif avg_x > 0 and avg_y < 0:
+        z = avg_x * (100-avg_y)
+    elif avg_x < 0 and avg_y > 0:
+        z = (100-avg_x) * avg_y
+    elif avg_x < 0 and avg_y < 0:
+        z = (100-avg_x) * (100-avg_y)
+    z = round(z, 2)
+    return z
+
+def ordinal_rank(z_list):
+    z_ordinal_rank = np.sort(z_list)[::-1]
+    return z_ordinal_rank
+
+# x = [10.0, 20.0, 30.0]
+# y = [20.4, 80.2, 100]
+
+# avg_x, avg_y = avg_of_x_y(x, y)
+# print(avg_x, avg_y)
+
+# z = compute_z(avg_x, avg_y)
+# print(z)
+
+# rank = ordinal_rank(y)
+# print(rank)
+
 def check_threshold_against_groups_size(agents_group_size, threshold):
     """
     Enter size of the voting party (no more than 50 participants) and the level of urgency (1-10) to achieve critical mass.
@@ -76,23 +132,3 @@ def check_threshold_against_groups_size(agents_group_size, threshold):
 def calculate_threshold_against_groups_size(agents_group_size, threshold):
     check_threshold_against_groups_size(agents_group_size, threshold)
     # if threshold == 50:
-
-    # If the threshold is 50 then half of the agents' votes between urgency and importance will be split 50/50
-    # This means that if 4/10 people vote urgent and 6/10 vote not urgent then it will be classed as a not urgent task
-    # If it was 80 percent then if 3/10 people vote for an urgent task, 7/10 people vote as unurgent, it will still be classed as urgent?
-
-    # Those remaining in important and less urgent, is there a way to delegate or automate that to other groups?
-        
-    # Default quadrants to be 50/50, could be flexible for other decision boundaries
-    # Tasks could be ranked in terms of 'relative urgency'
-    # Could each task be a feature that could be classed in the 4 quadrants?
-    # Output is urgency? y-axis is importance/impact and x-axis is time and effort required
-    # Proximity (how soon it should happen? not very soon 1-3 very soon), Impact, Difficulty
-    # Look into MUST(what it must do) SHOULD (what it should do) COULD HAVE (what is nice to have) WONT (what is not possible, understanding of scope)
-
-    # Task prioritisation planning could trigger a kanban board
-
-    # Make it generalisable
-    # Matrix is a visual aid that prompts for decision-making
-    # Indicator of alignment - nearest dots, clustering algorithm.
-
