@@ -3,10 +3,11 @@ from pydantic import BaseModel, Field, validator, EmailStr, validate_email
 from typing import Optional, NamedTuple, List
 from datetime import datetime
 from pydantic.networks import EmailStr
-from sqlalchemy.sql.schema import ForeignKey
 from errors import XYValueError
 import pprint
 from utils import quadrant_classifier_label, quadrant_classifier_for_values
+
+pp = pprint.PrettyPrinter(indent=4)
 
 class UserData(BaseModel):
     id: UUID = Field(default_factory=uuid4)
