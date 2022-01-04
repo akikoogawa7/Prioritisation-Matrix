@@ -2,7 +2,11 @@ from uuid import UUID, uuid4
 from fastapi import FastAPI, Path
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
-from .inputs_classes import UserData, MatrixInputs, UserElementInputs, UserDataOut
+
+from pydantic.fields import Field
+from pydantic.tools import parse_obj_as
+from sqlalchemy.sql.functions import user
+from inputs_classes import UserData, MatrixInputs, UserElementInputs, UserDataOut
 import socket
 import sys
 
@@ -17,10 +21,9 @@ app.add_middleware(
 )
 
 matrices = {
-    'matrix_body': {
-        'matrix_id': 1,
-        'problem_statement': 'How to solve this'
-    }
+    'project_title': 'Title',
+    'matrix_name': 'matrix1',
+    'user_id': 'akiko12',
 }
 
 hostname = socket.gethostname()
@@ -34,34 +37,32 @@ async def read_root():
         "version": f"Hello world! From FastAPI running on Uvicorn. Using Python {version}"
     }
 
-@app.post('/user/', response_model=UserDataOut)
-async def create_user(user: UserData):
-    return user
+@app.post('/users/{user_id}')
+async def write_user(user_id: str, user_data: UserDataOut):
+    if user_id in matrices:
+        return {
+            "error": "User already exists."
+        }
+    matrices[user_id] = {'user_id': user_id,'username': user_data.username}
+    return matrices[user_id]
 
-@app.get('/matrices/')
-async def get_matrices(matrix_name: str, matrix_body: MatrixInputs):
-    return {'matrix_name': matrix_name, 'matrix_body': matrix_body}
-
-@app.put('/{project_title}/matrices/{matrix_name}/{problem_statement}')
-async def read_item_public_data(project_title: str, matrix_name: str, problem_statement: str, matrix: MatrixInputs, project_description: Optional[str] = None):
-    return {'project_title': project_title, 
-    'project_description': project_description, 
-    'matrix_name': matrix_name, 
-    'problem_statement': problem_statement,
-    'matrix': matrix 
+@app.get('/users/{user_id}')
+async def read_user(user_id: str = Path(None, description='Please add user id')):
+    return matrices[user_id]
+ 
+@app.get('/projects/{project_title}/{matrix_name}')
+async def read_matrix(*, project_title: str, project_description: Optional[str] = None, matrix_name: str):
+    return {
+        'project_title': project_title,
+        'project_description': project_description,
+        'matrix_name': matrix_name,
     }
 
-@app.post('/elements/{element_name}')
-async def create_element(element_name: str, element_body: UserElementInputs, element_list: List[UserElementInputs]):
-    element_list.append({'element_name': element_name, 'element_body': element_body})
-    return {'element_name': element_name, 'element_body': element_body, 'element_list': element_list}
-
-@app.get('matrices/{matrix_id}.')
-async def get_matrix(name: str, matrix_id: int = Path(None, description='The ID of the matrix you would like to view') ):
-    for matrix in matrices:
-        if matrices[matrix_id]['problem_statement'] == name:
-            return matrices['problem_statement']
-
-
-
-
+@app.get('/matrix/{matrix_id}')
+async def read_matrix(matrix: MatrixInputs, author: UserDataOut, matrix_id: int = Path(None, description="The ID of your matrix")):
+    if matrix_id in matrices:
+        return {
+            "error": "Matrix already exists"
+        }
+    matrices[matrix_id] = {'matrix_id': matrix.id}
+    return matrices[matrix_id]

@@ -41,6 +41,9 @@ class MatrixOutputORM(Base):
     __tablename__ = 'matrix'
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     name = Column(String(60), unique=True)
+    project_title = Column(String(60))
+    project_description = Column(String(60))
+    problem_statement = Column(String(60))
     # creator = relationship("SessionORM", back_populates="matrix")
 
 Base.metadata.drop_all(engine)

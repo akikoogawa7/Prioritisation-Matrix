@@ -12,7 +12,7 @@ pp = pprint.PrettyPrinter(indent=4)
 class UserData(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     fullname: Optional[str] = None
-    # email: str
+    email: str
     username: str
     password: str
     confirm_password: str
@@ -95,6 +95,7 @@ if __name__ == '__main__':
         first_name='A',
         last_name='O',
         username='AO97',
+        email='email@gmail.com',
         password='password',
         confirm_password='password'
     )
