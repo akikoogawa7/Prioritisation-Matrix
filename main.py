@@ -37,6 +37,7 @@ async def read_root():
         "version": f"Hello world! From FastAPI running on Uvicorn. Using Python {version}"
     }
 
+# POST USER
 @app.post('/users/{user_id}')
 async def write_user(user_id: str, user_data: UserDataOut):
     if user_id in matrices:
@@ -46,10 +47,12 @@ async def write_user(user_id: str, user_data: UserDataOut):
     matrices[user_id] = {'user_id': user_id,'username': user_data.username}
     return matrices[user_id]
 
+# GET USER
 @app.get('/users/{user_id}')
 async def read_user(user_id: str = Path(None, description='Please add user id')):
     return matrices[user_id]
  
+# GET PROJECT & MATRIX
 @app.get('/projects/{project_title}/{matrix_name}')
 async def read_matrix(*, project_title: str, project_description: Optional[str] = None, matrix_name: str):
     return {
@@ -58,6 +61,7 @@ async def read_matrix(*, project_title: str, project_description: Optional[str] 
         'matrix_name': matrix_name,
     }
 
+# GET MATRIX BY MATRIX ID 
 @app.get('/matrix/{matrix_id}')
 async def read_matrix(matrix: MatrixInputs, author: UserDataOut, matrix_id: int = Path(None, description="The ID of your matrix")):
     if matrix_id in matrices:
