@@ -38,13 +38,16 @@ class UserDataOut(BaseModel):
     email: str
     username: str
 
+class Project(BaseModel):
+    id: UUID = Field(default_factory=uuid4)
 
 # Question and Problem element (created by Admin)
 
 class MatrixInputs(BaseModel):
     id: UUID = Field(default_factory=uuid4)
+    matrix_name = str
     time_created: datetime = Field(default_factory=datetime.utcnow)
-    author: UserData
+    user: UserDataOut
 
 # XY Variables and Polarity (created by Admin)
 class XYInputLabel(NamedTuple):

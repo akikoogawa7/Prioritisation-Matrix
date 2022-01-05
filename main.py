@@ -6,7 +6,7 @@ from typing import List, Optional
 from pydantic.fields import Field
 from pydantic.tools import parse_obj_as
 from sqlalchemy.sql.functions import user
-from inputs_classes import UserData, MatrixInputs, UserElementInputs, UserDataOut
+from inputs_classes import MatrixInputs, UserDataOut
 import socket
 import sys
 
@@ -21,9 +21,6 @@ app.add_middleware(
 )
 
 matrices = {
-    'project_title': 'Title',
-    'matrix_name': 'matrix1',
-    'user_id': 'akiko12',
 }
 
 hostname = socket.gethostname()
@@ -44,29 +41,55 @@ async def write_user(user_id: str, user_data: UserDataOut):
         return {
             "error": "User already exists."
         }
-    matrices[user_id] = {'user_id': user_id,'username': user_data.username}
+    matrices[user_id] = user_data
     return matrices[user_id]
 
 # GET USER
 @app.get('/users/{user_id}')
 async def read_user(user_id: str = Path(None, description='Please add user id')):
     return matrices[user_id]
+
+# POST PROJECT & MATRIX
+@app.post('/projects/{project_name}/{matrix_name}')
+async def write_project_and_matrix(project_name: str, matrix_name: str, matrix: MatrixInputs):
+    if matrix_name and project_name in matrices:
+        return {
+            "error": "Matrix already exists."
+        }
+    matrices[project_name, matrix_name] = matrix
+    return matrices[project_name, matrix_name]
  
 # GET PROJECT & MATRIX
 @app.get('/projects/{project_title}/{matrix_name}')
-async def read_matrix(*, project_title: str, project_description: Optional[str] = None, matrix_name: str):
-    return {
-        'project_title': project_title,
-        'project_description': project_description,
-        'matrix_name': matrix_name,
-    }
-
-# GET MATRIX BY MATRIX ID 
-@app.get('/matrix/{matrix_id}')
-async def read_matrix(matrix: MatrixInputs, author: UserDataOut, matrix_id: int = Path(None, description="The ID of your matrix")):
-    if matrix_id in matrices:
+async def read_matrix(project_title: str, matrix_name: str):
+    return matrices[project_title, matrix_name]
+        
+# POST MATRIX
+@app.post('/matrix/{matrix_name}')
+async def write_matrix(matrix_name: str, matrix: MatrixInputs):
+    if matrix_name in matrices:
         return {
             "error": "Matrix already exists"
         }
-    matrices[matrix_id] = {'matrix_id': matrix.id}
-    return matrices[matrix_id]
+    matrices[matrix_name] = matrix
+    return matrices[matrix_name]
+
+# POST PROJECT
+@app.post('/projects/{project_title}')
+async def write_project(project_title: str, matrix: MatrixInputs):
+    if project_title in matrices:
+        return {
+            "error": "Matrix already exists"
+        }
+    matrices[project_title] = matrix
+    return matrices[project_title]
+
+# GET MATRIX
+@app.get('/matrix/{matrix_name}')
+async def read_matrix_name(matrix_name: str = Path(None, description="The name of your matrix")):
+    return matrices[matrix_name]
+
+# GET PROJECTS 
+@app.get('/projects/{project_title}')
+async def read_project_title(project_title: str = Path(None, description="The title of your project")):
+    return matrices[project_title]
