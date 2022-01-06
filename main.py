@@ -6,7 +6,7 @@ from typing import List, Optional
 from pydantic.fields import Field
 from pydantic.tools import parse_obj_as
 from sqlalchemy.sql.functions import user
-from inputs_classes import UserData, MatrixInputs, UserElementInputs, UserDataOut
+from inputs_classes import MatrixInputs, UpdateMatrixInputs, UserDataOut
 import socket
 import sys
 
@@ -21,9 +21,6 @@ app.add_middleware(
 )
 
 matrices = {
-    'project_title': 'Title',
-    'matrix_name': 'matrix1',
-    'user_id': 'akiko12',
 }
 
 hostname = socket.gethostname()
@@ -37,32 +34,39 @@ async def read_root():
         "version": f"Hello world! From FastAPI running on Uvicorn. Using Python {version}"
     }
 
+# POST USER
 @app.post('/users/{user_id}')
 async def write_user(user_id: str, user_data: UserDataOut):
     if user_id in matrices:
         return {
             "error": "User already exists."
         }
-    matrices[user_id] = {'user_id': user_id,'username': user_data.username}
+    matrices[user_id] = user_data
     return matrices[user_id]
 
+# GET USER
 @app.get('/users/{user_id}')
 async def read_user(user_id: str = Path(None, description='Please add user id')):
     return matrices[user_id]
- 
-@app.get('/projects/{project_title}/{matrix_name}')
-async def read_matrix(*, project_title: str, project_description: Optional[str] = None, matrix_name: str):
-    return {
-        'project_title': project_title,
-        'project_description': project_description,
-        'matrix_name': matrix_name,
-    }
 
-@app.get('/matrix/{matrix_id}')
-async def read_matrix(matrix: MatrixInputs, author: UserDataOut, matrix_id: int = Path(None, description="The ID of your matrix")):
-    if matrix_id in matrices:
+# POST PROJECT & MATRIX
+@app.post('/projects/{project_id}/{matrix_id}')
+async def write_project_and_matrix(project_id: str, matrix_id: str, matrix: MatrixInputs):
+    if matrix_id and project_id in matrices:
         return {
-            "error": "Matrix already exists"
+            "error": "Matrix already exists."
         }
-    matrices[matrix_id] = {'matrix_id': matrix.id}
-    return matrices[matrix_id]
+    matrices[project_id, matrix_id] = matrix
+    return matrices[project_id, matrix_id]
+
+# GET PROJECT & MATRIX
+@app.get('/projects/{project_id}/{matrix_id}')
+async def read_matrix(project_id: str, matrix_id: str):
+    return matrices[project_id, matrix_id]
+
+# UPDATE PROJECT & MATRIX
+@app.put('/projects/{project_id}/{matrix_id}')
+async def updated_projects_and_matrix(project_id: str, matrix_id: str, matrix: UpdateMatrixInputs):
+    if matrix.problem_statement and matrix.matrix_name != None:
+        matrices[project_id, matrix_id] = matrix
+    return matrices[project_id, matrix_id]
