@@ -43,19 +43,28 @@ class Project(BaseModel):
 
 # Question and Problem element (created by Admin)
 
-class MatrixInputs(BaseModel):
-    id: UUID = Field(default_factory=uuid4)
-    matrix_name = str
-    time_created: datetime = Field(default_factory=datetime.utcnow)
-    user: UserDataOut
-    problem_statement: str
+# class MatrixInputs(BaseModel):
+#     id = str
+#     name = str
+#     time_created: datetime = Field(default_factory=datetime.utcnow)
+#     user: UserDataOut
+#     problem_statement: str
 
-class UpdateMatrixInputs(BaseModel):
-    id: UUID = Field(default_factory=uuid4)
-    matrix_name: Optional[str] = None
-    time_created: datetime = Field(default_factory=datetime.utcnow)
-    user: UserDataOut
+class Matrix(BaseModel):
+    name: str
+    description: Optional[str] = None
     problem_statement: str
+    time_created: datetime = Field(default_factory=datetime.today)
+
+    class Config:
+        orm_mode = True
+
+# class UpdateMatrixInputs(BaseModel):
+#     id: UUID = Field(default_factory=uuid4)
+#     matrix_name: Optional[str] = None
+#     time_created: datetime = Field(default_factory=datetime.utcnow)
+#     user: UserDataOut
+#     problem_statement: str
 
 # XY Variables and Polarity (created by Admin)
 class XYInputLabel(NamedTuple):

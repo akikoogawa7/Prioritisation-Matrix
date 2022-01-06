@@ -8,3 +8,7 @@ CLASSES: [x: ('Urgent', 'Less Urgent'), y: ('Important', 'Less Important')]
 ```
 
 ![matrix](Images/Eisenhower-Matrix.jpeg)
+
+DB models created with SQLAlchemy
+DB is Postgres
+Database configuration with alembic

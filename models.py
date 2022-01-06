@@ -1,20 +1,9 @@
-from re import T
+from db import Base, Session, engine
 from uuid import uuid4
-from sqlalchemy import create_engine
-from sqlalchemy.orm.session import sessionmaker
-from sqlalchemy.sql.schema import MetaData
-from sqlalchemy import Column, Integer, String, Table, DateTime, create_engine
-from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
+from sqlalchemy import Column, Integer, String, Table, DateTime
 from sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
-
-Base = declarative_base()
-meta = MetaData()
-
-engine = create_engine("postgresql://postgres:password@localhost:5432/postgres", echo=True)
 
 class SessionORM(Base):
     __tablename__ = 'sessions'
@@ -25,7 +14,7 @@ class SessionORM(Base):
     # matrix = relationship("MatrixOutputORM", back_populates="creator")
     # user = relationship("UserORM", back_populates="matrix")
 
-class UserOrm(Base):
+class UserORM(Base):
     __tablename__ = 'users'
     id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid4)
     username = Column(String(25), unique=True)
@@ -37,20 +26,10 @@ class UserOrm(Base):
     def __repr__(self):
         return f'<User username={self.username} email={self.email}>'
 
-class MatrixOutputORM(Base):
+class MatrixORM(Base):
     __tablename__ = 'matrix'
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     name = Column(String(60), unique=True)
-    project_title = Column(String(60))
-    project_description = Column(String(60))
+    description = Column(String(60))
     problem_statement = Column(String(60))
     # creator = relationship("SessionORM", back_populates="matrix")
-
-Base.metadata.drop_all(engine)
-
-Session = sessionmaker(bind=engine)
-# session = Session()
-
-# session.add(user)
-# session.commit()
-# session.close()
