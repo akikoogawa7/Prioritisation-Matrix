@@ -3,6 +3,9 @@ from os import wait
 import sys
 import asyncio
 from utils import quadrant_classifier_label
+from matplotlib import pyplot
+
+# create an if statement where we input values based on the number of users voting
 
 async def play():
     # print('\nFind out how to prioritise your objectives...')

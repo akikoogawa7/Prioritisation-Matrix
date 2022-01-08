@@ -2,15 +2,10 @@ import matplotlib.pyplot as plt
 from utils import avg_of_list
 import seaborn as sns
 
-def generate_matrix():
+def generate_matrix(num_of_users, name, problem, x_label, y_label, x_polarity, y_polarity, x_value, y_values):
     threshold = 50
 
-    matrix_name = 'Matrix'
-    problem_name = 'Problem'
-    x_label = 'x label'
-    y_label = 'y label'
-    x = [2, 23, 50, 80]
-    y = [2, 23, 50, 80]
+    # this function should generate the average/mean of x and y values
 
     #Scatterplot
     # sns.scatterplot(data=matrix_values,x='gni_pc', y='life_ex')
