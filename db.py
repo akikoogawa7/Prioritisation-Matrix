@@ -12,9 +12,9 @@ from schemas import Matrix
 Base = declarative_base()
 meta = MetaData()
 
-POSTGRESQL_DATABASE_URL = "postgresql://postgres:password@localhost:5432/postgres"
+POSTGRESQL_DATABASE_URI = "postgresql://postgres:password@localhost:5432/postgres"
 
-engine = create_engine(POSTGRESQL_DATABASE_URL, echo=True)
+engine = create_engine(POSTGRESQL_DATABASE_URI, echo=True)
 
 Base.metadata.drop_all(engine)
 
