@@ -55,59 +55,33 @@ def compute_inputs_json(inputs_dataset):
         print('File not found, will create a new one.')
         inputs_dataset = {}
 
-def avg_of_x_y(x_list, y_list):
-    if len(x_list) == len(y_list):
-        average_x = round(sum(x_list) / len(x_list), 2)
-        average_y = round(sum(y_list) / len(y_list), 2)
-    return average_x, average_y
+def avg_of_list(list):
+    if len(list) == len(list):
+        average = round(sum(list) / len(list), 2)
+    return average
 
-# def multiply_x_positive_y_postive(x, y):
-#     if x and y > 0:
-#         z = x * y
-#     return z
-    
-# def multiply_x_positive_y_negative(x, y):
-#     if x > 0 and y < 0:
-#         z = x * (100-y)
-#     return z
-
-# def multiply_x_negative_y_positive(x, y):
-#     if x < 0 and y > 0:
-#         z = (100-x) * y
-#     return z
-
-# def multiply_x_negative_y_negative(x, y):
-#     if x < 0 and y < 0:
-#         z = (100-x) * (100-y)
-#     return z
-
-def compute_z(avg_x, avg_y):
-    if avg_x and avg_y > 0:
-        z = avg_x * avg_y
-    elif avg_x > 0 and avg_y < 0:
-        z = avg_x * (100-avg_y)
-    elif avg_x < 0 and avg_y > 0:
-        z = (100-avg_x) * avg_y
-    elif avg_x < 0 and avg_y < 0:
-        z = (100-avg_x) * (100-avg_y)
+def compute_z(x_polarity, y_polarity, avg_x, avg_y): # parameters should know the polarities of X and Y
+    if x_polarity == False:
+        corrected_x = 100 - avg_x
+    if y_polarity == False:
+        corrected_y = 100 - avg_y
+    if x_polarity == True:
+        corrected_x = avg_x
+    if y_polarity == True:
+        corrected_y = avg_y
+    z = corrected_x * corrected_y
     z = round(z, 2)
     return z
+
+z = compute_z(x_polarity=False, y_polarity=True, avg_x=0, avg_y=0)
+print(z)
+
+# So what we have to do here, is create another condition where if x is negative and y is positive, and if both x and y are at their most preferrable it can be, then we should do 10,000 minus 0 which makes the ordinal rank for this 10,000 which should be accurate.
 
 def ordinal_rank(z_list):
     z_ordinal_rank = np.sort(z_list)[::-1]
     return z_ordinal_rank
 
-# x = [10.0, 20.0, 30.0]
-# y = [20.4, 80.2, 100]
-
-# avg_x, avg_y = avg_of_x_y(x, y)
-# print(avg_x, avg_y)
-
-# z = compute_z(avg_x, avg_y)
-# print(z)
-
-# rank = ordinal_rank(y)
-# print(rank)
 
 def check_threshold_against_groups_size(agents_group_size, threshold):
     """
