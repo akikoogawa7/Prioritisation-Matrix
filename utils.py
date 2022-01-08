@@ -55,10 +55,13 @@ def compute_inputs_json(inputs_dataset):
         print('File not found, will create a new one.')
         inputs_dataset = {}
 
-def avg_of_list(list):
-    if len(list) == len(list):
-        average = round(sum(list) / len(list), 2)
-    return average
+def avg_of_list(num_of_users, x_list, y_list):
+    if len(x_list) and len(y_list) == num_of_users:
+        x_avg = round(sum(x_list) / len(x_list), 2)
+        y_avg = round(sum(y_list) / len(y_list), 2)
+        return x_avg, y_avg
+    else:
+        print('Error! Has everyone voted or have you included the right number of voters?')
 
 def compute_z(x_polarity, y_polarity, avg_x, avg_y): # parameters should know the polarities of X and Y
     if x_polarity == False:
