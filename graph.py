@@ -29,11 +29,12 @@ def generate_matrix_A(num_of_users, name, problem, class_name, x_label, y_label,
     sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
     
     # Title 
-    plt.title(f'{problem}', pad=0.2)
+    plt.title(f'{problem}', fontsize=12)
+    plt.suptitle(f'{name}', fontsize=14)
 
     # x and y axis labels
-    plt.xlabel(f'{x_label}', fontsize=12)
-    plt.ylabel(f'{y_label}', fontsize=12)
+    plt.xlabel(f'{x_label}', fontsize=11)
+    plt.ylabel(f'{y_label}', fontsize=11)
 
     # Quadrant Marker        
     plt.text(x=75, y=25, s="Q4",alpha=0.7,fontsize=14, color='b')
@@ -49,8 +50,8 @@ def generate_matrix_A(num_of_users, name, problem, class_name, x_label, y_label,
                    ), fontsize=20
          )
     # Benchmark Mean values          
-    plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
-    plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
+    plt.axhline(y=50, color='k', linestyle='--', linewidth=0.5)           
+    plt.axvline(x=50, color='k',linestyle='--', linewidth=0.5) 
 
     # Sets axis limit
     plt.xlim([0, 100])
@@ -83,11 +84,12 @@ def generate_matrix_B(num_of_users, name, problem, class_name, x_label, y_label,
     sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
     
     # Title 
-    plt.title(f'{problem}')
+    plt.title(f'{problem}', fontsize=12)
+    plt.suptitle(f'{name}', fontsize=14)
 
     # x and y axis labels
-    plt.xlabel(f'{x_label}', fontsize=12)
-    plt.ylabel(f'{y_label}', fontsize=12)
+    plt.xlabel(f'{x_label}', fontsize=11)
+    plt.ylabel(f'{y_label}', fontsize=11)
 
     # Quadrant Marker        
     plt.text(x=75, y=25, s="D",alpha=0.7,fontsize=14, color='b')
@@ -103,8 +105,8 @@ def generate_matrix_B(num_of_users, name, problem, class_name, x_label, y_label,
                    ), fontsize=20
          )
     # Benchmark Mean values          
-    plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
-    plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
+    plt.axhline(y=50, color='k', linestyle='--', linewidth=0.5)           
+    plt.axvline(x=50, color='k',linestyle='--', linewidth=0.5) 
 
     # Sets axis limit
     plt.xlim([0, 100])
@@ -137,11 +139,12 @@ def generate_matrix_C(num_of_users, name, problem, class_name, x_label, y_label,
     sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
     
     # Title 
-    plt.title(f'{problem}')
+    plt.title(f'{problem}', fontsize=12)
+    plt.suptitle(f'{name}', fontsize=14)
 
     # x and y axis labels
-    plt.xlabel(f'{x_label}', fontsize=12)
-    plt.ylabel(f'{y_label}', fontsize=12)
+    plt.xlabel(f'{x_label}', fontsize=11)
+    plt.ylabel(f'{y_label}', fontsize=11)
 
     # Quadrant Marker        
     plt.text(x=75, y=25, s="D",alpha=0.7,fontsize=14, color='b')
@@ -149,16 +152,16 @@ def generate_matrix_C(num_of_users, name, problem, class_name, x_label, y_label,
     plt.text(x=75, y=75, s="B", alpha=0.7,fontsize=14, color='b')
     plt.text(x=25, y=75, s="A", alpha=0.7,fontsize=14, color='b')
 
-    plt.text(25, 25, f'{class_name}', size=50.,
+    plt.text(25, 25, f'{class_name}', size=60.,
          ha="center", va="center",
          bbox=dict(boxstyle="round",
-                   ec=(1., 0.5, 0.5),
-                   fc=(1., 0.8, 0.8),
+                   ec=(0.5, 0.5, 0.5),
+                   fc=(0.2, 0.8, 0.8),
                    ), fontsize=20
          )
     # Benchmark Mean values          
-    plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
-    plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
+    plt.axhline(y=50, color='k', linestyle='--', linewidth=0.5)           
+    plt.axvline(x=50, color='k',linestyle='--', linewidth=0.5) 
 
     # Sets axis limit
     plt.xlim([0, 100])
@@ -191,11 +194,12 @@ def generate_matrix_D(num_of_users, name, problem, class_name, x_label, y_label,
     sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
     
     # Title 
-    plt.title(f'{problem}')
+    plt.title(f'{problem}', fontsize=12)
+    plt.suptitle(f'{name}', fontsize=14)
 
     # x and y axis labels
-    plt.xlabel(f'{x_label}', fontsize=12)
-    plt.ylabel(f'{y_label}', fontsize=12)
+    plt.xlabel(f'{x_label}', fontsize=11)
+    plt.ylabel(f'{y_label}', fontsize=11)
 
     # Quadrant Marker        
     plt.text(x=75, y=25, s="D",alpha=0.7,fontsize=14, color='b')
@@ -211,8 +215,8 @@ def generate_matrix_D(num_of_users, name, problem, class_name, x_label, y_label,
                    ), fontsize=20
          )
     # Benchmark Mean values          
-    plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
-    plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
+    plt.axhline(y=50, color='k', linestyle='--', linewidth=0.5)           
+    plt.axvline(x=50, color='k',linestyle='--', linewidth=0.5) 
 
     # Sets axis limit
     plt.xlim([0, 100])
