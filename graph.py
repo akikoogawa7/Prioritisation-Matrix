@@ -1,11 +1,9 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 from utils import avg_of_list
-from matplotlib import rcParams
 import pandas as pd
 import cv2 as cv
 import numpy as np
-
 
 # Matrix A
 def generate_matrix_A(num_of_users, name, problem, class_name, x_label, y_label, x_polarity, y_polarity, x_values, y_values):

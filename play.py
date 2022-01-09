@@ -48,15 +48,15 @@ async def play():
     y_polarity = None
     while x_polarity not in ['positive', 'negative']:
         x_polarity = input(f'\nX axis - {x_label} (positive or negative): ')
-        if x_polarity in 'positive':
+        if x_polarity == 'positive':
             x_polarity = True
-    x_polarity
+        return x_polarity
     await asyncio.sleep(2)
     while y_polarity not in ['positive', 'negative']:
         y_polarity = input(f'\nY axis - {y_label} (positive or negative): ')
         if y_polarity in 'positive':
             y_polarity = True
-    y_polarity
+        return y_polarity
     await asyncio.sleep(2)
     print('\nNow we have all the data we need, we will display your matrix.')
     await asyncio.sleep(2)
