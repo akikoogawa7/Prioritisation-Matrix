@@ -9,7 +9,8 @@ Users can set their own variables, classes and aggregate data from its group to 
 
 An example of a Matrix generated through the code:
 
-![ourmatrix](Images/MatrixTemplate.jpg width=200 height=200)
+<img src="Images/MatrixTemplate.jpg" height="48" width="48">
+
 <!-- 
 DB models created with SQLAlchemy
 DB is Postgres
