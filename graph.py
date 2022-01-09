@@ -1,45 +1,236 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-import asyncio
 from utils import avg_of_list
+from matplotlib import rcParams
 import pandas as pd
+import cv2 as cv
+import numpy as np
 
-def generate_matrix(num_of_users, name, problem, x_label, y_label, x_polarity, y_polarity, x_values, y_values):
+
+# Matrix A
+def generate_matrix_A(num_of_users, name, problem, class_name, x_label, y_label, x_polarity, y_polarity, x_values, y_values):
     threshold = 50
 
     # this function should generate the average/mean of x and y values
-    avg_x, avg_y = avg_of_list(num_of_users, x_values, y_values)
-    # print(f'Your average X values are {avg_x}.\nYour average Y values are {avg_y}.')
+    # avg_x, avg_y = avg_of_list(num_of_users, x_values, y_values)
+    
+    # Style
+    sns.set_style("darkgrid")
 
-    # Title 
-    fig, ax = plt.subplots(figsize=(8, 8))
-    plt.title(f'{problem}')
-    plt.suptitle(f'{name}')
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
 
     #Scatterplot
-    data = pd.DataFrame({f'{x_label}':x_values, f'{y_label}':y_values})
-    print(data)
-    # sns.relplot(data=data, x=f'{x_label}', y=f'{y_label}', hue=f'{[x_label, y_label]}')
-    # sns.scatterplot(data=data, y=f'{y_label}', hue=f'{y_label}')
+    x_data = pd.DataFrame({f'{x_label}':x_values})
+    y_data = pd.DataFrame({f'{y_label}':y_values})
+    xy_data = pd.concat([x_data, y_data], axis=1, join='inner')
+    img = cv.imread("Images/Eisenhower-Matrix.jpeg")
 
-    # to add 2 hues, concatenate x and y into one column
+    sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
+    
+    # Title 
+    plt.title(f'{problem}', pad=0.2)
 
     # x and y axis labels
-    plt.xlabel(f'{x_label}')
-    plt.ylabel(f'{y_label}')
+    plt.xlabel(f'{x_label}', fontsize=12)
+    plt.ylabel(f'{y_label}', fontsize=12)
 
-    # Quadrant Marker          
-    plt.text(x=40000, y=68, s="Q4",alpha=0.7,fontsize=14, color='b')
-    plt.text(x=15000, y=68, s="Q3",alpha=0.7,fontsize=14, color='b')
-    plt.text(x=15000, y=78, s="Q2", alpha=0.7,fontsize=14, color='b')
-    plt.text(x=40000, y=78, s="Q1", alpha=0.7,fontsize=14, color='b')   
+    # Quadrant Marker        
+    plt.text(x=75, y=25, s="Q4",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=25, s="Q3",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=75, y=75, s="Q2", alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=60, s="Q1", alpha=0.7,fontsize=14, color='b')
 
+    plt.text(25, 75, f'{class_name}', size=50.,
+         ha="center", va="center",
+         bbox=dict(boxstyle="round",
+                   ec=(1., 0.5, 0.5),
+                   fc=(1., 0.8, 0.8),
+                   ), fontsize=20
+         )
     # Benchmark Mean values          
     plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
     plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
 
+    # Sets axis limit
     plt.xlim([0, 100])
     plt.ylim([0, 100])
+    # plt.imshow(img, extent=[0, 100, 0, 100], aspect='auto')
+
+    # Adjusts size
+    plt.subplots_adjust(left=0.124, bottom=0.133, right=0.76, top=0.887)
     plt.show()
 
-generate_matrix(3, 'matrix', 'problem', 'time', 'effort', 'positive', 'negative', [10.0, 60, 40.0], [10.0, 20.0, 40.0])
+# Matrix B
+def generate_matrix_B(num_of_users, name, problem, class_name, x_label, y_label, x_polarity, y_polarity, x_values, y_values):
+    threshold = 50
+
+    # this function should generate the average/mean of x and y values
+    # avg_x, avg_y = avg_of_list(num_of_users, x_values, y_values)
+    
+    # Style 
+    sns.set_style("darkgrid")
+
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
+
+    #Scatterplot
+    x_data = pd.DataFrame({f'{x_label}':x_values})
+    y_data = pd.DataFrame({f'{y_label}':y_values})
+    xy_data = pd.concat([x_data, y_data], axis=1, join='inner')
+    img = cv.imread("Images/Eisenhower-Matrix.jpeg")
+
+    sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
+    
+    # Title 
+    plt.title(f'{problem}')
+
+    # x and y axis labels
+    plt.xlabel(f'{x_label}', fontsize=12)
+    plt.ylabel(f'{y_label}', fontsize=12)
+
+    # Quadrant Marker        
+    plt.text(x=75, y=25, s="D",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=25, s="C",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=75, y=75, s="B", alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=75, s="A", alpha=0.7,fontsize=14, color='b')
+
+    plt.text(75, 75, f'{class_name}', size=50.,
+         ha="center", va="center",
+         bbox=dict(boxstyle="round",
+                   ec=(1., 0.5, 0.5),
+                   fc=(1., 0.8, 0.8),
+                   ), fontsize=20
+         )
+    # Benchmark Mean values          
+    plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
+    plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
+
+    # Sets axis limit
+    plt.xlim([0, 100])
+    plt.ylim([0, 100])
+    # plt.imshow(img, extent=[0, 100, 0, 100], aspect='auto')
+
+    # Adjusts size
+    plt.subplots_adjust(left=0.124, bottom=0.133, right=0.76, top=0.887)
+    plt.show()
+
+# Matrix C
+def generate_matrix_C(num_of_users, name, problem, class_name, x_label, y_label, x_polarity, y_polarity, x_values, y_values):
+    threshold = 50
+
+    # this function should generate the average/mean of x and y values
+    # avg_x, avg_y = avg_of_list(num_of_users, x_values, y_values)
+    
+    # Style 
+    sns.set_style("darkgrid")
+
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
+
+    #Scatterplot
+    x_data = pd.DataFrame({f'{x_label}':x_values})
+    y_data = pd.DataFrame({f'{y_label}':y_values})
+    xy_data = pd.concat([x_data, y_data], axis=1, join='inner')
+    img = cv.imread("Images/Eisenhower-Matrix.jpeg")
+
+    sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
+    
+    # Title 
+    plt.title(f'{problem}')
+
+    # x and y axis labels
+    plt.xlabel(f'{x_label}', fontsize=12)
+    plt.ylabel(f'{y_label}', fontsize=12)
+
+    # Quadrant Marker        
+    plt.text(x=75, y=25, s="D",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=25, s="C",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=75, y=75, s="B", alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=75, s="A", alpha=0.7,fontsize=14, color='b')
+
+    plt.text(25, 25, f'{class_name}', size=50.,
+         ha="center", va="center",
+         bbox=dict(boxstyle="round",
+                   ec=(1., 0.5, 0.5),
+                   fc=(1., 0.8, 0.8),
+                   ), fontsize=20
+         )
+    # Benchmark Mean values          
+    plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
+    plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
+
+    # Sets axis limit
+    plt.xlim([0, 100])
+    plt.ylim([0, 100])
+    # plt.imshow(img, extent=[0, 100, 0, 100], aspect='auto')
+
+    # Adjusts size
+    plt.subplots_adjust(left=0.124, bottom=0.133, right=0.76, top=0.887)
+    plt.show()
+
+# Matrix D
+def generate_matrix_D(num_of_users, name, problem, class_name, x_label, y_label, x_polarity, y_polarity, x_values, y_values):
+    threshold = 50
+
+    # this function should generate the average/mean of x and y values
+    # avg_x, avg_y = avg_of_list(num_of_users, x_values, y_values)
+    
+    # Style 
+    sns.set_style("darkgrid")
+
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
+
+    #Scatterplot
+    x_data = pd.DataFrame({f'{x_label}':x_values})
+    y_data = pd.DataFrame({f'{y_label}':y_values})
+    xy_data = pd.concat([x_data, y_data], axis=1, join='inner')
+    img = cv.imread("Images/Eisenhower-Matrix.jpeg")
+
+    sns.relplot(data=xy_data, x=f'{x_label}', y=f'{y_label}', hue=xy_data[[f'{x_label}', f'{y_label}']].apply(tuple, axis=1), height=6, aspect=8/8)
+    
+    # Title 
+    plt.title(f'{problem}')
+
+    # x and y axis labels
+    plt.xlabel(f'{x_label}', fontsize=12)
+    plt.ylabel(f'{y_label}', fontsize=12)
+
+    # Quadrant Marker        
+    plt.text(x=75, y=25, s="D",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=25, s="C",alpha=0.7,fontsize=14, color='b')
+    plt.text(x=75, y=75, s="B", alpha=0.7,fontsize=14, color='b')
+    plt.text(x=25, y=75, s="A", alpha=0.7,fontsize=14, color='b')
+
+    plt.text(75, 25, f"{class_name}", size=50.,
+         ha="center", va="center",
+         bbox=dict(boxstyle="round",
+                   ec=(1., 0.5, 0.5),
+                   fc=(1., 0.8, 0.8),
+                   ), fontsize=20
+         )
+    # Benchmark Mean values          
+    plt.axhline(y=50, color='k', linestyle='--', linewidth=1)           
+    plt.axvline(x=50, color='k',linestyle='--', linewidth=1) 
+
+    # Sets axis limit
+    plt.xlim([0, 100])
+    plt.ylim([0, 100])
+    # plt.imshow(img, extent=[0, 100, 0, 100], aspect='auto')
+
+    # Adjusts size
+    plt.subplots_adjust(left=0.124, bottom=0.133, right=0.76, top=0.887)
+    plt.show()
+
+
+dataSize = 50
+
+# Make synthetic data:
+xData = np.random.randint(100, size=dataSize)
+yData = np.linspace(0, dataSize, num=dataSize, dtype=int)
+
+# generate_matrix_A(num_of_users=3, name='matrixA', problem='Task A', class_name='A' , x_label='Time', y_label='Effort', x_polarity='negative', y_polarity='positive', x_values=[10.0, 60, 40.0], y_values=[10.0, 20.0, 40.0])
+# generate_matrix_B(num_of_users=3, name='matrixB', problem='Task B', class_name='B' , x_label='Time', y_label='Effort', x_polarity='positive', y_polarity='positive', x_values=[10.0, 60, 40.0], y_values=[10.0, 20.0, 40.0])
+generate_matrix_C(num_of_users=3, name='matrixC', problem='Task C', class_name='C', x_label='Time', y_label='Effort', x_polarity='negative', y_polarity='positive', x_values=xData, y_values=yData)
+# generate_matrix_D(num_of_users=3, name='matrix', problem='Task A', class_name='D' , x_label='Time', y_label='Effort', x_polarity='positive', y_polarity='negative', x_values=xData, y_values=yData)
