@@ -1,11 +1,12 @@
 from os import wait
 import sys
 import asyncio
+from matplotlib.pyplot import xlabel
 
 from numpy import positive
-from utils import quadrant_classifier_label
-from matplotlib import pyplot
-from graph import check_matrix
+from test import extract_values_from_each_member
+from utils_functions import quadrant_classifier_label, collect_member_data
+from graph import check_matrix, check_matrix_template
 
 # create an if statement where we input values based on the number of users voting
 
@@ -14,7 +15,7 @@ async def play():
     # await asyncio.sleep(4)
     # print('\nAre you ready?')
     # await asyncio.sleep(4)
-    num_of_users = int(input('\nHow many people will be voting?: '))
+    num_of_users = int(input('\nHow many members will be voting?: '))
     # await asyncio.sleep(2)
     name = input('\nEnter your matrix name: ')
     # await asyncio.sleep(2)
@@ -22,7 +23,7 @@ async def play():
     # await asyncio.sleep(2)
     problem = input('\nNow enter your problem/objective/question you intend to solve: ')
     await asyncio.sleep(2)
-    class_name = input('\nWhat would you like to name this preferred class and category?')
+    class_name = input('\nWhat would you like to name this preferred class and category?: ')
     # await asyncio.sleep(2)
     # print('\nNow we need to define the labels for the X and Y AXIS. This should be the metric you wish to measure this against.')
     # await asyncio.sleep(4)
@@ -67,9 +68,25 @@ async def play():
     preferred_quadrant = quadrant_classifier_label(x_polarity, y_polarity)
     print(f'\nYour preferred quadrant is {preferred_quadrant}.')
     await asyncio.sleep(2)
-    matrix_generator = check_matrix(preferred_quadrant)
-    matrix_generator(num_of_users=num_of_users, name=name, problem=problem, class_name=class_name, x_label=x_label, y_label=y_label, x_polarity=x_polarity, y_polarity=y_polarity)
-
+    # template_generator = check_matrix_template(preferred_quadrant)
+    # await asyncio.sleep(2)
+    # print('Generating template...')
+    # await asyncio.sleep(2)
+    # template_generator(name=name, problem=problem, class_name=class_name, x_label=x_label, y_label=y_label, x_polarity=x_polarity, y_polarity=y_polarity)
+    # await asyncio.sleep(2)
+    print('\nNow we need to collect the values of your members.')
+    await asyncio.sleep(2)
+    print('\nPlease enter the X and Y values of all your members.')
+    await asyncio.sleep(2)
+    data = collect_member_data(num_of_users=num_of_users)
+    x_values, y_values = extract_values_from_each_member(data)
+    await asyncio.sleep(2)
+    print('Generating template...')
+    matrix = check_matrix(preferred_quadrant)
+    matrix(num_of_users=num_of_users, name=name, problem=problem, class_name=class_name, x_label=x_label, y_label=y_label, x_polarity=x_polarity, y_polarity=y_polarity, x_values=x_values, y_values=y_values)
+    await asyncio.sleep(2)
+    print('Ta Da!')
+    
     # await input_args()
     # loop = asyncio.get_event_loop()
     # try:
