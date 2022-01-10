@@ -1,4 +1,5 @@
 __pycache__
+/database
 retrieve.py
 update.py
 create_matrix.py
@@ -6,3 +7,4 @@ create_users.py
 create_test_data.py
 test.py
 bool.py
+db.py
