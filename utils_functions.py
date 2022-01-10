@@ -1,6 +1,7 @@
 import json
 from os import times_result
 import numpy as np
+# from graph import generate_matrix_A, generate_matrix_B, generate_matrix_C, generate_matrix_D
 
 def quadrant_classifier_for_values(x, y, threshold=50):
 
@@ -85,6 +86,45 @@ def ordinal_rank(z_list):
     z_ordinal_rank = np.sort(z_list)[::-1]
     return z_ordinal_rank
 
+# def update_default_x_y_values(user_values):
+#     updated_list = []
+#     for user_value in user_values.keys():
+#             updated_list.append(user_value)
+#     return updated_list
+
+def collect_member_data(num_of_users):
+    for idx, user in enumerate(range(num_of_users)):
+        member_data = []
+        while idx < num_of_users:
+            idx+=1
+            member_values_dict = {
+                'member_idx': {},
+            }
+            member_x = input(f'Member {idx}, X value: ')
+            member_y = input(f'Member {idx}, Y value: ')
+
+            member_values_dict['member_idx'] = idx
+            member_values_dict['x_value'] = member_x
+            member_values_dict['y_value'] = member_y
+
+            member_data.append(member_values_dict)
+        break
+    return member_data
+
+def extract_values_from_each_member(data):
+    x_values = []
+    y_values = []
+    for idx, value in enumerate(data):
+        while idx < len(data):
+            x = data[idx]['x_value']
+            y = data[idx]['y_value']
+            idx+=1
+            x_values.append(x)
+            y_values.append(y)
+            break
+        x_values = [int(i) for i in x_values]
+        y_values = [int(i) for i in y_values]
+    return x_values, y_values
 
 def check_threshold_against_groups_size(agents_group_size, threshold):
     """

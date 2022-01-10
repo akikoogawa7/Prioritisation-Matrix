@@ -5,7 +5,7 @@ from datetime import datetime
 from pydantic.networks import EmailStr
 from errors import XYValueError
 import pprint
-from utils import quadrant_classifier_label, quadrant_classifier_for_values
+from utils_functions import quadrant_classifier_label, quadrant_classifier_for_values
 
 pp = pprint.PrettyPrinter(indent=4)
 
